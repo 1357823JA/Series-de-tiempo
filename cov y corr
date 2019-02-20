@@ -1,0 +1,7 @@
+desempleo<- read.csv("C:\\Users\\ALUMNO-D32\\Documents\\indicadores.csv")
+media1<- mean(desempleo$X59.1)
+media2<- mean(desempleo$X3.8)
+covar<- sum(desempleo$X59.1-media1)*(desempleo$X3.8-media2)
+corr<- covar/(sqrt(var(desempleo$X59.1)*var(desempleo$X3.8)))
+cov(desempleo$X59.1,desempleo$X3.8)
+cor(desempleo$X59.1,desempleo$X3.8)
