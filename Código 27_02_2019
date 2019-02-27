@@ -1,0 +1,60 @@
+install.packages("fpp2")
+install.packages("forecast")
+require (fpp2)
+require(forecast)
+
+pib<- read.csv("file:///C:/Users/ALUMNO-D21/Documents/PIB 1961_2017.csv")
+pibt<- ts(pib, frequency = 1 , start=1961)
+mod1<- ses(pibt,alpha=0.1, initial="simple", h=8)
+mod2<- ses(pibt, alpha=0.3, initial="simple", h=8)
+mod3<- ses(pibt, alpha=0.9,h=8)
+plot(mod1, ylab="pib",#####Grafica los datos reales del dato 1
+ xlab="año", main="pib", type="o")
+lines(fitted(mod1), col="blue", type="o")####(fitted(mod1) significa los modelos ajustados del modelo 1, los agrega de color azul
+lines(fitted(mod2), col="red",type="o")####(fitted(mod2) significa los modelos ajustados del modelo 2, los agrega de color rojo
+lines(fitted(mod3), col="green", type="o")####(fitted(mod3) significa los modelos ajustados del modelo 3, los agrega de color verde
+legent("topleft", lty=1, col=c(1,"blue","red","green"),
+       c("data", expression(alpha==0.1), expression(alpha==0.3), expression(alpha==0.0), pch=1)
+###recuadro que sale dentro de la grafica con legent
+### Nosotros nos quedariamos con el 0.9 porque es el que màs se aceca a nuestros datos reales que son los de la grafica de color negro, entre mas aumenta el alfa mas agresivo es el suavizado, el que no es tan agresivo es el de color azul.
+##### ejercicio#######
+##Con la funcion windows separen la serie del pib 
+## en datos de entrenamiento y datos de prueba(20%)
+## y grafiquen los modelos solo en lo que corresponde a 
+## los datos de prueba los valores ajustados de los 3 modelos
+pibr<- read.csv("file:///C:/Users/ALUMNO-D21/Documents/pib27.txt")
+pib1<- window(pibr,start = 2005, end = 2017)
+plot(pib1)
+mod4<- ses(pib1,alpha=0.1, initial="simple", h=8)
+mod5<- ses(pib1, alpha=0.3, initial="simple", h=8)
+mod6<- ses(pib1, alpha=0.9,h=8)
+plot(mod4, ylab="pib",
+     xlab="año", main="pib", type="o")
+lines(fitted(mod4), col="blue", type="o")
+lines(fitted(mod5), col="red",type="o")
+lines(fitted(mod6), col="green", type="o")
+legent("topleft", lty=1, col=c(1,"blue","red","green"),
+       c("data", expression(alpha==0.1), expression(alpha==0.3), expression(alpha==0.0), pch=1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
