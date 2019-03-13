@@ -1,0 +1,66 @@
+require(fpp2)
+a1<- window(ausair, start=1990)
+prono<- holt(a1, h=15)
+autoplot(prono)
+prono1<-holt(a1, h=15)
+prono2<- holt(a1, damped=TRUE, phi=0.9, h=15)
+prono3<- ses(a1, alpha = 0.7, initial = "simple",h=15)
+autoplot(a1)+
+  autolayer(prono1,series="Holt", PI=FALSE)+
+  autolayer(prono2,series="Amortiguado Holt", PI=FALSE)+
+  ggtitle("pronosticos")+ xlab("año")+
+  ylab("pasajeros")+
+  guides(colour=guide_legend(title="prono"))
+#####Buscamos valores cercanos a cero  del error cuadratico medio MSE
+e1<-tsCV(a1,ses,h=1) ###Metodo ses
+e2<-tsCV(a1,holt,h=1)###Metodo Holt
+e3<-(tsCV(a1,holt,damped=TRUE,h=1))##Metodo amortiguado de tendencia 
+MSE:
+  mean(e1^2,na.rm=TRUE)
+  #10.58
+  mean(e2^2,na.rm=TRUE) ###El mejor es el mètodo Holt dado que es el que màs se acerca a 0 
+  #6.57               
+  mean(e3^2,na.rm=TRUE)
+  #7.38
+  MAE:
+    mean(abs(e1), na.rm=TRUE)
+  #2.43
+    mean(abs(e2), na.rm=TRUE)###El mejor es el mètodo Holt dado que es el que màs se acerca a 0
+  #1.80
+    mean(abs(e3), na.rm=TRUE)
+  #1.86
+help(tsCV)
+
+PIB<- read.csv("file:///C:/Users/ALUMNO-D21/Documents/PIB 13_03.csv")
+PIB1<- ts(PIB, start = 1961, frequency = 4)
+plot(PIB1)
+pro<- holt(PIB1, h=4)
+autoplot(pro)
+pro1<-holt(PIB1, h=4)
+pro2<- holt(PIB1, damped=TRUE, phi=0.9, h=4)
+pro3<- ses(PIB1, alpha = 0.7, initial = "simple",h=4)
+autoplot(PIB1)+
+  autolayer(pro1,series="Holt", PI=FALSE)+
+  autolayer(pro2,series="Amortiguado Holt", PI=FALSE)+
+  ggtitle("pronosticos")+ xlab("año")+
+  ylab("pasajeros")+
+  guides(colour=guide_legend(title="prono"))
+#####Buscamos valores cercanos a cero  del error cuadratico medio MSE
+e4<-tsCV(PIB1,ses,h=1) ###Metodo ses
+e5<-tsCV(PIB1,holt,h=1)###Metodo Holt
+e6<-(tsCV(PIB1,holt,damped=TRUE,h=1))##Metodo amortiguado de tendencia 
+MSE:
+  mean(e4^2,na.rm=TRUE)
+#16.32
+mean(e5^2,na.rm=TRUE)
+#14.80             
+mean(e6^2,na.rm=TRUE)###El mejor es el mètodo Amortiguado de tendencia dado que es el que màs se acerca a 0
+#13.92
+MAE:
+  mean(abs(e4), na.rm=TRUE)
+#2.89
+mean(abs(e5), na.rm=TRUE)
+#2.69
+mean(abs(e6), na.rm=TRUE)###El mejor es el mètodo Amortiguado de tendencia dado que es el que màs se acerca a 0
+#2.55
+help(tsCV)
